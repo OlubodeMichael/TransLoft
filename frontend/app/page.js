@@ -1,18 +1,8 @@
 import Image from "next/image";
-import { Inter, Montserrat, Bebas_Neue, Rajdhani } from 'next/font/google';
 import LogoText from "@/app/_components/LogoText";
-
+import Link from "next/link";
 // Initialize the fonts
-const inter = Inter({ subsets: ['latin'] });
-const montserrat = Montserrat({ subsets: ['latin'] });
-const bebasNeue = Bebas_Neue({
-  weight: '400',
-  subsets: ['latin'],
-});
-const rajdhani = Rajdhani({
-  weight: '600',
-  subsets: ['latin'],
-});
+
 
 export default function Home() {
   return (
@@ -32,12 +22,12 @@ export default function Home() {
 
           {/* Right Buttons */}
           <div className="flex items-center gap-6">
-            <button className="text-gray-700 px-4 py-2 text-sm font-medium hover:text-gray-900 transition-colors">
+            <Link href="/login" className="text-gray-700 px-4 py-2 text-sm font-medium hover:text-gray-900 transition-colors">
               Login
-            </button>
-            <button className="bg-gray-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm">
+            </Link>
+            <Link href="/signup" className="bg-gray-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm">
               Sign up
-            </button>
+            </Link>
           </div>
         </div>
       </nav>

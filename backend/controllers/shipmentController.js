@@ -4,6 +4,7 @@ const AppError = require("../utils/appError");
 exports.getAllShipment = async (req, res) => {
     try {
         let shipments = await Shipment.find();
+        //console.log(shipments)
         res.status(200).json({
             status: 'success',
             data: {

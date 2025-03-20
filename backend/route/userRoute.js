@@ -10,7 +10,7 @@ router.post("/login", authcontroller.login)
 
 router
    .route('/')
-   .get(userController.getAllUsers)
+   .get(authcontroller.protect, authcontroller.restrictedTo('admin'), userController.getAllUsers)
    .post(userController.createUser);
 
 
