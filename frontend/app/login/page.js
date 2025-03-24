@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import { useAuth } from '@/context/AuthProvider';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import LogoText from '@/app/_components/LogoText';
 
 export default function Login() {
+    const { login } = useAuth();
     const router = useRouter();
     const [formData, setFormData] = useState({
         email: '',
@@ -22,25 +23,18 @@ export default function Login() {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:8000/api/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+            const user = await login({
+                email: formData.email,
+                password: formData.password
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Invalid credentials');
-            }
-
-            // Store the token in localStorage
-            if (data.token) {
-                localStorage.setItem('token', data.token);
-                // Redirect to dashboard or home page after successful login
-                router.push('/shipments');
+            if (user.token) {
+                //console.log(user)
+                if(user.role === "admin") {
+                    router.push('/shipments');
+                } else if(user.role === "business") {
+                    router.push('/dashboard');
+                }
             } else {
                 throw new Error('Authentication token not received');
             }
@@ -49,6 +43,7 @@ export default function Login() {
             setError(err.message || 'Invalid email or password. Please try again.');
         } finally {
             setIsLoading(false);
+            setFormData({email: '', password: '', rememberMe: false});
         }
     };
 
@@ -99,7 +94,7 @@ export default function Login() {
                                     required
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    className="appearance-none block text-gray-900 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                     placeholder="Enter your email"
                                 />
                             </div>
@@ -118,7 +113,7 @@ export default function Login() {
                                     required
                                     value={formData.password}
                                     onChange={handleChange}
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    className="appearance-none block w-full text-gray-900 px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                     placeholder="Enter your password"
                                 />
                             </div>

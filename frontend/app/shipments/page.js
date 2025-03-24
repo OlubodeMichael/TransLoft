@@ -67,11 +67,11 @@ export default function Dashboard() {
             }
 
             const data = await response.json();
-            console.log('API Response:', data);
+            //console.log('API Response:', data);
 
             // Handle the nested structure: data.data.shipments
             const shipmentsArray = data?.data?.shipments || [];
-            console.log('Shipments array:', shipmentsArray);
+            //console.log('Shipments array:', shipmentsArray);
             
             setShipments(shipmentsArray);
         } catch (err) {
@@ -125,7 +125,7 @@ export default function Dashboard() {
                     onClick={() => setIsModalOpen(false)}
                 >
                     <div 
-                        className="relative top-20 mx-auto p-8 border w-[480px] shadow-xl rounded-lg bg-white transform transition-all duration-300"
+                        className="relative top-20 mx-auto p-8 border w-[480px]  shadow-xl rounded-lg bg-white transform transition-all duration-300"
                         onClick={e => e.stopPropagation()}
                     >
                         <div className="flex justify-between items-center mb-6">
@@ -156,7 +156,7 @@ export default function Dashboard() {
                                         type="text"
                                         value={newShipment.pickUpLocation}
                                         onChange={(e) => setNewShipment({...newShipment, pickUpLocation: e.target.value})}
-                                        className="pl-10 w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                        className="pl-10 w-full px-4 py-2.5 text-gray-600 placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                         placeholder="Enter complete address"
                                         required
                                     />
@@ -174,7 +174,7 @@ export default function Dashboard() {
                                         type="text"
                                         value={newShipment.destination}
                                         onChange={(e) => setNewShipment({...newShipment, destination: e.target.value})}
-                                        className="pl-10 w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                        className="pl-10 w-full px-4 text-gray-600 placeholder-gray-600 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                         placeholder="Enter complete address"
                                         required
                                     />
@@ -191,7 +191,7 @@ export default function Dashboard() {
                                     <select
                                         value={newShipment.status}
                                         onChange={(e) => setNewShipment({...newShipment, status: e.target.value})}
-                                        className="pl-10 w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 appearance-none bg-white"
+                                        className="pl-10 w-full px-4 text-gray-600 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 appearance-none bg-white"
                                     >
                                         <option value="pending">Pending</option>
                                         <option value="in-transit">In Transit</option>
@@ -234,12 +234,12 @@ export default function Dashboard() {
                         placeholder="Search by location..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-2 text-gray-600 placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                     <select
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value)}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="px-4 py-2 border border-gray-300 text-gray-600 placeholder-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                         <option value="all">All Status</option>
                         <option value="pending">Pending</option>

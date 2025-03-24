@@ -246,7 +246,8 @@ function StatusTimeline({ shipment }) {
 }
 
 // Action Buttons component
-function ActionButtons({ shipment, router }) {
+function ActionButtons({ shipment, router, onHandleDelete }) {
+    
     return (
         <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:justify-between space-y-3 sm:space-y-0">
             <button
@@ -259,8 +260,9 @@ function ActionButtons({ shipment, router }) {
                 {shipment.status !== 'cancelled' && shipment.status !== 'delivered' && (
                     <button
                         className="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
+                        onClick={onHandleDelete}
                     >
-                        Cancel Shipment
+                        Delete Shipment
                     </button>
                 )}
                 <button
@@ -283,6 +285,30 @@ export default function ShipmentDetails({ params }) {
     // Safely access the shipmentId using React.use
     const resolvedParams = use(params);
     const shipmentId = resolvedParams.shipmentId;
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/shipments/${shipmentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                }
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data?.message || 'Failed to delete shipment');
+            }
+
+            // Show success message and redirect to shipments page
+            alert('Shipment deleted successfully');
+            router.push('/shipments');
+        } catch (err) {
+            console.error('Error deleting shipment:', err);
+            setError(err.message || 'An error occurred while deleting the shipment');
+        }
+    };
 
     useEffect(() => {
         const fetchShipmentDetails = async () => {
@@ -369,7 +395,7 @@ export default function ShipmentDetails({ params }) {
                 </div>
 
                 {/* Actions */}
-                <ActionButtons shipment={shipment} router={router} />
+                <ActionButtons shipment={shipment} router={router} onHandleDelete={handleDelete} />
             </main>
         </div>
     );
