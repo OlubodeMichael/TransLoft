@@ -76,26 +76,25 @@ function AuthProvider({ children }) {
         credentials: "include",
         body: JSON.stringify({ email, password }),
       });
-
-      if (!res.ok) {
-        let error;
-        try {
-          error = await res.json();
-        } catch {
-          throw new Error("Login failed");
-        }
-        throw new Error(error.message || "Login failed");
-      }
-
-      const data = await res.json();
-      setUser(data);
-      return data;
-    } catch (error) {
-      throw error;
-    } finally {
-      setIsLoading(false)
+  
+      if (!res.ok) throw new Error("Login failed");
+      const loginData = await res.json();
+  
+      // ✅ Fetch actual user data from /me
+      const userRes = await fetch("http://localhost:8000/api/users/me", {
+        credentials: "include",
+      });
+  
+      if (!userRes.ok) throw new Error("Could not fetch user");
+      const userData = await userRes.json();
+  
+      setUser(userData); // This updates the context
+      return loginData;  // Or return userData if you prefer
+    } catch (err) {
+      throw err;
     }
   };
+  
 
   // ✅ Logout
   const logout = async () => {

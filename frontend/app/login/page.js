@@ -29,7 +29,6 @@ export default function Login() {
             });
 
             if (user.token) {
-                //console.log(user)
                 if(user.role === "admin") {
                     router.push('/shipments');
                 } else if(user.role === "business") {
