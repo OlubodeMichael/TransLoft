@@ -1,16 +1,19 @@
 const express = require('express');
 const userController = require("../controllers/userController");
-const authcontroller = require('./../controllers/authController')
+const authController = require('./../controllers/authController')
 
 
 const router = express.Router()
 
-router.post('/signup', authcontroller.signUp)
-router.post("/login", authcontroller.login)
+router.post('/signup', authController.signUp)
+router.post("/login", authController.login)
+router.post("/logout", authController.logout)
+
+router.get('/me', authController.protect, userController.getMe, userController.getUser);
 
 router
    .route('/')
-   .get(authcontroller.protect, authcontroller.restrictedTo('admin'), userController.getAllUsers)
+   .get(authController.protect, authController.restrictedTo('admin'), userController.getAllUsers)
    .post(userController.createUser);
 
 

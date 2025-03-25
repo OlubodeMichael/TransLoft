@@ -17,6 +17,11 @@ const shipmentSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now  // ✅ Removed the parentheses to prevent incorrect timestamp generation
+    },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: [true, 'shipment must belong to a user']
     }
 });
 

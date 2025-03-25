@@ -37,14 +37,23 @@ exports.login = catchAsync(async (req, res) => {
     }
     // 2) Check if user exists and password is correct
     const user = await User.findOne({email}).select('+password')
+    
 
     if (!user || (!await user.correctPassword(password, user.password))) {
         return  next(new AppError('Incorrect email or password', 401));
     }
     // 3) Check if everything is ok, send token to client
     const token = signToken(user._id)
+
+    res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Lax' // or 'None' if cross-site in production
+      });
+      
     res.status(201).json({
         status: 'success',
+        role: user.role,
         token
     })
 })
@@ -52,9 +61,14 @@ exports.login = catchAsync(async (req, res) => {
 exports.protect = catchAsync(async(req, res, next) => {
     let token;
     // 1) Getting token and check of it's there
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+      ) {
         token = req.headers.authorization.split(' ')[1];
-    }
+      } else if (req.cookies.jwt) {
+        token = req.cookies.jwt; // ✅ Pull from cookies
+      }
 
     if(!token) {
         return next(new AppError('You are not logged in. Please login to get access.', 401));
@@ -86,3 +100,14 @@ exports.restrictedTo = (...roles) => {
     
 }
 
+exports.logout = (req, res) => {
+    res.cookie('jwt', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax',
+      expires: new Date(0) // 👈 Expire the cookie immediately
+    });
+  
+    res.status(200).json({ status: 'success', message: 'Logged out successfully' });
+  };
+  
