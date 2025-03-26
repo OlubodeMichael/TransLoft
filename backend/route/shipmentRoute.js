@@ -7,13 +7,13 @@ const router = express.Router();
 
 router
     .route('/')
-    .get(authController.protect, authController.restrictedTo('admin'), shipmentController.getAllShipment)
-    .post(shipmentController.createShipment);
+    .get(authController.protect, shipmentController.getAllShipment)
+    .post(authController.protect, shipmentController.createShipment);
 
 router
     .route('/:id')
-    .get(shipmentController.getShipment)
-    .patch(shipmentController.updateShipment)
+    .get(authController.protect, shipmentController.getShipment)
+    .patch(authController.protect, shipmentController.updateShipment)
     .delete(authController.protect, authController.restrictedTo('admin'), shipmentController.deleteShipment);
 
 module.exports = router

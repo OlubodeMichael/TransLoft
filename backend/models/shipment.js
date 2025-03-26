@@ -22,6 +22,11 @@ const shipmentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         required: [true, 'shipment must belong to a user']
+    },
+    carrier: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User', 
+        default: null
     }
 });
 

@@ -4,11 +4,12 @@ const User = require('./../models/user');
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require('../utils/appError');
 
-const signToken = id => {
-    return jwt.sign({id}, process.env.JWT_SECRET, {
+const signToken = user => {
+    return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN
-    })
-}
+    });
+};
+
 exports.signUp = catchAsync(async (req, res) => {
     const newUser = await User.create({
         name: req.body.name,
@@ -17,7 +18,12 @@ exports.signUp = catchAsync(async (req, res) => {
         passwordConfirm: req.body.passwordConfirm
     })
     
-    const token = signToken(newUser._id)
+    const token = signToken(newUser)
+    res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Lax' // or 'None' if cross-site in production
+      });
     res.status(201).json({
         status: 'success',
         token,
@@ -32,9 +38,10 @@ exports.login = catchAsync(async (req, res) => {
     const {email, password} = req.body
 
     // 1) Check if email and password exists
-    if(!email || !password) {
-        return new AppError('Provide email and password', 404);
+    if (!email || !password) {
+        return next(new AppError('Provide email and password', 400));
     }
+    
     // 2) Check if user exists and password is correct
     const user = await User.findOne({email}).select('+password')
     
@@ -43,7 +50,7 @@ exports.login = catchAsync(async (req, res) => {
         return  next(new AppError('Incorrect email or password', 401));
     }
     // 3) Check if everything is ok, send token to client
-    const token = signToken(user._id)
+    const token = signToken(user)
 
     res.cookie('jwt', token, {
         httpOnly: true,

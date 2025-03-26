@@ -3,7 +3,12 @@ const AppError = require("../utils/appError");
 
 exports.getAllShipment = async (req, res) => {
     try {
-        let shipments = await Shipment.find();
+        let shipments ;
+        if(req.user.role === "admin") {
+            shipments = await Shipment.find().populate('user');
+        } else {
+            shipments = await Shipment.find({ user: req.user._id });
+        }
         //console.log(shipments)
         res.status(200).json({
             status: 'success',
@@ -31,9 +36,14 @@ exports.createShipment = async (req, res) => {
             });
         }
 
-        const newShipment = await Shipment.create({pickUpLocation, destination});
+        const newShipment = await Shipment.create({
+            pickUpLocation,
+            destination,
+            user: req.user._id
+          });
+          
 
-        res.status(201).json({
+        res.status(200).json({
             status: 'success',
             data: {
                 shipment: newShipment
@@ -97,7 +107,7 @@ exports.updateShipment = async (req, res, next) => {
     }
 }
 
-exports.deleteShipment = async (req, res) => {
+exports.deleteShipment = async (req, res, next) => {
     try {
         const shipment = await Shipment.findByIdAndDelete(req.params.id)
 
