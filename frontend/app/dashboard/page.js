@@ -3,53 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useShipments } from '@/context/ShipmentProvider';
 
-// Mock data
-const MOCK_SHIPMENTS = [
-    {
-        _id: '1',
-        pickUpLocation: '123 Main Street, New York, NY 10001',
-        destination: '456 Market Street, San Francisco, CA 94105',
-        status: 'in-transit',
-        createdAt: '2024-03-08T21:06:18.010Z',
-        estimatedDelivery: '2024-03-15T21:06:18.010Z'
-    },
-    {
-        _id: '2',
-        pickUpLocation: '789 Broadway, Chicago, IL 60601',
-        destination: '321 Pine Street, Seattle, WA 98101',
-        status: 'pending',
-        createdAt: '2024-03-07T21:06:18.010Z',
-        estimatedDelivery: '2024-03-14T21:06:18.010Z'
-    },
-    {
-        _id: '3',
-        pickUpLocation: '555 5th Avenue, Miami, FL 33139',
-        destination: '777 Peachtree St, Atlanta, GA 30308',
-        status: 'delivered',
-        createdAt: '2024-03-06T21:06:18.010Z',
-        estimatedDelivery: '2024-03-13T21:06:18.010Z'
-    },
-    {
-        _id: '4',
-        pickUpLocation: '888 Sunset Blvd, Los Angeles, CA 90028',
-        destination: '999 Congress Ave, Austin, TX 78701',
-        status: 'in-transit',
-        createdAt: '2024-03-05T21:06:18.010Z',
-        estimatedDelivery: '2024-03-12T21:06:18.010Z'
-    },
-    {
-        _id: '5',
-        pickUpLocation: '444 Las Vegas Blvd, Las Vegas, NV 89109',
-        destination: '222 Bourbon St, New Orleans, LA 70130',
-        status: 'pending',
-        createdAt: '2024-03-04T21:06:18.010Z',
-        estimatedDelivery: '2024-03-11T21:06:18.010Z'
-    }
-];
 
 export default function Dashboard() {
+    const { isLoading, shipments, fetchShipments } = useShipments()
     const router = useRouter();
+    console.log(shipments)
     const [stats, setStats] = useState({
         total: 0,
         inTransit: 0,
@@ -57,22 +17,22 @@ export default function Dashboard() {
         pending: 0
     });
     const [recentShipments, setRecentShipments] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    //const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        
         // Simulate loading delay
         const timer = setTimeout(() => {
             // Calculate stats from mock data
             const stats = {
-                total: MOCK_SHIPMENTS.length,
-                inTransit: MOCK_SHIPMENTS.filter(s => s.status === 'in-transit').length,
-                delivered: MOCK_SHIPMENTS.filter(s => s.status === 'delivered').length,
-                pending: MOCK_SHIPMENTS.filter(s => s.status === 'pending').length
+                total: shipments.length,
+                inTransit: shipments.filter(s => s.status === 'in-transit').length,
+                delivered: shipments.filter(s => s.status === 'delivered').length,
+                pending: shipments.filter(s => s.status === 'pending').length
             };
 
             setStats(stats);
-            setRecentShipments(MOCK_SHIPMENTS);
-            setIsLoading(false);
+            setRecentShipments(shipments);
         }, 0); // 1 second delay to simulate loading
 
         return () => clearTimeout(timer);
@@ -198,12 +158,6 @@ export default function Dashboard() {
                     <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
                         <div className="flex items-center justify-between">
                             <h2 className="text-lg font-medium text-gray-900">Recent Shipments</h2>
-                            <Link 
-                                href="/shipments"
-                                className="text-sm font-medium text-blue-600 hover:text-blue-500"
-                            >
-                                View all shipments
-                            </Link>
                         </div>
                     </div>
                     <div className="divide-y divide-gray-200">

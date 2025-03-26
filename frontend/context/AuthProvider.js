@@ -7,31 +7,32 @@ function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   // ✅ Auto-fetch current user on load
-  
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        
         const res = await fetch("http://localhost:8000/api/users/me", {
           credentials: "include",
         });
-        if (res.ok) {
-          const data = await res.json();
-          //console.log(data)
-          setUser(data);
-        } else {
+  
+        if (!res.ok) {
+          // If not authenticated or error occurred, just set user to null
           setUser(null);
+          return;
         }
+  
+        const data = await res.json();
+        setUser(data);
       } catch (err) {
         console.error("Error fetching user:", err);
-        setUser(null);
+        setUser(null); // Ensure user is set to null if error happens
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Loading ends either way
       }
     };
-
+  
     fetchUser();
   }, []);
+  
 
   // ✅ Signup
   const signup = async ({ name, email, password, passwordConfirm }) => {
@@ -77,7 +78,7 @@ function AuthProvider({ children }) {
         body: JSON.stringify({ email, password }),
       });
   
-      if (!res.ok) throw new Error("Login failed");
+      if (!res.ok) throw new Error("Invalid email or password");
       const loginData = await res.json();
   
       // ✅ Fetch actual user data from /me
@@ -87,6 +88,7 @@ function AuthProvider({ children }) {
   
       if (!userRes.ok) throw new Error("Could not fetch user");
       const userData = await userRes.json();
+
   
       setUser(userData); // This updates the context
       return loginData;  // Or return userData if you prefer
@@ -116,6 +118,9 @@ function AuthProvider({ children }) {
     }
   };
   
+  const isAdmin = user?.role === "admin";
+  const isShipper = user?.role === "shipper";
+  const isCarrier = user?.role === "carrier";
 
   return (
     <AuthContext.Provider
@@ -124,7 +129,10 @@ function AuthProvider({ children }) {
         isLoading,
         signup,
         login,
-        logout
+        logout,
+        isAdmin,
+        isShipper,
+        isCarrier,
       }}
     >
       {children}

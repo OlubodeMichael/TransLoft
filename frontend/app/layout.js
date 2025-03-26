@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import AuthProvider from "@/context/AuthProvider"
+import ShipmentProvider from "@/context/ShipmentProvider";
 /*
 export const metadata = {
   title: "Transloft - Modern Logistics Solutions",
@@ -12,9 +13,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <AuthProvider>
-      <body className='bg-white min-h-screen'>
-        {children}
-      </body>
+        <ShipmentProvider>
+          <body className='bg-white min-h-screen'>
+            {children}
+          </body>
+        </ShipmentProvider>
       </AuthProvider>
     </html>
   );

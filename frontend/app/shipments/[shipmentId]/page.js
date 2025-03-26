@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import {  useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { notFound, useRouter } from 'next/navigation';
 import { use } from 'react';
-
+import { useShipments } from '@/context/ShipmentProvider';
 // Utility functions
 const getStatusColor = (status) => {
     const colors = {
@@ -278,69 +279,26 @@ function ActionButtons({ shipment, router, onHandleDelete }) {
 // Main Shipment Details component
 export default function ShipmentDetails({ params }) {
     const router = useRouter();
-    const [shipment, setShipment] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    
+    const { error, isLoading, shipment, deleteShipment, getShipment } = useShipments()
     
     // Safely access the shipmentId using React.use
     const resolvedParams = use(params);
     const shipmentId = resolvedParams.shipmentId;
+    const notify = () => toast('Shipment deleted successfully✅');
 
     const handleDelete = async () => {
-        try {
-            const response = await fetch(`http://localhost:8000/api/shipments/${shipmentId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-                }
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data?.message || 'Failed to delete shipment');
-            }
-
-            // Show success message and redirect to shipments page
-            alert('Shipment deleted successfully');
-            router.push('/shipments');
-        } catch (err) {
-            console.error('Error deleting shipment:', err);
-            setError(err.message || 'An error occurred while deleting the shipment');
-        }
-    };
+        const confirmDelete = confirm("Are you sure you want to delete this shipment?");
+        if (!confirmDelete) return;
+      
+        await deleteShipment(shipmentId);
+        toast.success("Shipment deleted ✅");
+        //router.push("/shipments");
+      };
+      
 
     useEffect(() => {
-        const fetchShipmentDetails = async () => {
-            try {
-                setIsLoading(true);
-                
-                const response = await fetch(`http://localhost:8000/api/shipments/${shipmentId}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch shipment: ${response.status} ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                const shipmentData = data?.data?.shipment || null;
-                console.log("Fetched shipment:", shipmentData);
-                setShipment(shipmentData);
-            } catch (err) {
-                console.error('Error fetching shipment details:', err);
-                setError(err.message);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (shipmentId) {
-            fetchShipmentDetails();
-        }
+       getShipment(shipmentId)
     }, [shipmentId]);
 
     if (isLoading) {
@@ -358,8 +316,9 @@ export default function ShipmentDetails({ params }) {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <ShipmentHeader shipment={shipment} router={router} />
 
+            <ShipmentHeader shipment={shipment} router={router} />
+            <Toaster />
             {/* Main Content */}
             <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
                 <div className="bg-white shadow rounded-lg overflow-hidden">

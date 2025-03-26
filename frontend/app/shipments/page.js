@@ -2,12 +2,27 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthProvider';
+import { useShipments } from '@/context/ShipmentProvider';
 
 export default function Dashboard() {
+    const { user, isAdmin} = useAuth();
+    const { 
+        shipments, 
+        isLoading, 
+        error, 
+        fetchShipments,
+        createShipment
+     } = useShipments()
     const router = useRouter();
-    const [shipments, setShipments] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    // Block access if user is not admin
+    useEffect(() => {
+    if (!isLoading && (!user || !isAdmin)) {
+        console.log("Not authorized")// Or redirect to login/home
+    }
+    }, [user, isAdmin]);
+
+
     const [searchTerm, setSearchTerm] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,65 +38,18 @@ export default function Dashboard() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:8000/api/shipments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newShipment)
-            });
 
-            if (!response.ok) {
-                throw new Error('Failed to create shipment');
-            }
+        const res = await createShipment(newShipment)
+        console.log(res)
 
-            // Refresh the shipments list
-            await fetchShipments();
-            
-            // Reset form and close modal
-            setNewShipment({
-                pickUpLocation: '',
-                destination: '',
-                status: 'pending'
-            });
-            setIsModalOpen(false);
-        } catch (err) {
-            console.error('Error creating shipment:', err);
-        }
+        setNewShipment({
+            pickUpLocation: '',
+            destination: '',
+            status: 'pending'
+        });
+        setIsModalOpen(false);
     };
 
-    const fetchShipments = async () => {
-        try {
-            const response = await fetch('http://localhost:8000/api/shipments', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Cache-Control': 'no-cache'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch shipments: ${response.status} ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            //console.log('API Response:', data);
-
-            // Handle the nested structure: data.data.shipments
-            const shipmentsArray = data?.data?.shipments || [];
-            //console.log('Shipments array:', shipmentsArray);
-            
-            setShipments(shipmentsArray);
-        } catch (err) {
-            console.error('Error fetching shipments:', err);
-            setError(err.message);
-            setShipments([]);
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
     const filteredShipments = Array.isArray(shipments) ? shipments.filter(shipment => {
         if (!shipment) return false;
