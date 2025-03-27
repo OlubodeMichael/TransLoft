@@ -8,31 +8,30 @@ function AuthProvider({ children }) {
 
   // ✅ Auto-fetch current user on load
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch("http://localhost:8000/api/users/me", {
-          credentials: "include",
-        });
-  
-        if (!res.ok) {
-          // If not authenticated or error occurred, just set user to null
-          setUser(null);
-          return;
-        }
-  
-        const data = await res.json();
-        setUser(data);
-      } catch (err) {
-        console.error("Error fetching user:", err);
-        setUser(null); // Ensure user is set to null if error happens
-      } finally {
-        setIsLoading(false); // Loading ends either way
-      }
-    };
-  
     fetchUser();
   }, []);
   
+  const fetchUser = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/users/me", {
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        // If not authenticated or error occurred, just set user to null
+        setUser(null);
+        return;
+      }
+
+      const data = await res.json();
+      setUser(data);
+    } catch (err) {
+      console.error("Error fetching user:", err);
+      setUser(null); // Ensure user is set to null if error happens
+    } finally {
+      setIsLoading(false); // Loading ends either way
+    }
+  };
 
   // ✅ Signup
   const signup = async ({ name, email, password, passwordConfirm }) => {

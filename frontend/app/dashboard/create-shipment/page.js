@@ -440,7 +440,7 @@ export default function CreateShipment() {
                                                 {shipmentData.deliveryAddress}, {shipmentData.deliveryCity}, {shipmentData.deliveryState} {shipmentData.deliveryZip}
                                             </dd>
                                         </div>
-                                        <div>
+        <div>
                                             <dt className="text-gray-500">Expected Delivery</dt>
                                             <dd className="font-medium text-gray-900">{shipmentData.expectedDeliveryDate}</dd>
                                         </div>

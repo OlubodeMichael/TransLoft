@@ -1,17 +1,19 @@
 import { createContext, useContext, useState, useEffect } from "react";
-// import { useAuth } from "./AuthProvider";
+import { useAuth } from "./AuthProvider";
 
 const ShipmentContext = createContext();
 
 function ShipmentProvider({children}) {
+    const { user } = useAuth()
     const [shipments, setShipments] = useState([]);
     const [shipment, setShipment] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     
     useEffect(() => {
-        fetchShipments()
-       }, [])
+        if(user ) fetchShipments()
+        
+    }, [user])
 
    
 

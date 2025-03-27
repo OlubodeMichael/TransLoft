@@ -1,6 +1,9 @@
+"use client"
+
 import Image from "next/image";
 import LogoText from "@/app/_components/LogoText";
 import Link from "next/link";
+import { useState, useEffect} from "react";
 // Initialize the fonts
 
 
@@ -14,10 +17,9 @@ export default function Home() {
 
           {/* Center Navigation */}
           <div className="hidden md:flex items-center justify-center space-x-10 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm font-medium">Why Transloft?</a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm font-medium">Price Plans</a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm font-medium">Solutions</a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm font-medium">How it works?</a>
+            <a href="#why-transloft" className="text-gray-600 hover:text-gray-900 transition-colors text-sm font-medium">Why Transloft?</a>
+            <a href="#solutions" className="text-gray-600 hover:text-gray-900 transition-colors text-sm font-medium">Solutions</a>
+            <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 transition-colors text-sm font-medium">How it works?</a>
           </div>
 
           {/* Right Buttons */}
@@ -89,6 +91,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <WhyUs />
 
       {/* Shipping Service Section */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -231,6 +235,459 @@ export default function Home() {
         </div>
       </section>
 
+      
+      <Solutions />
+      <HowItWorks />
+      <WaitList />
+
+      {/* Footer */}
+      <footer className="bg-gray-100 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col items-center space-y-4">
+            <LogoText />
+            <p className="text-sm text-gray-600">
+              © 2024 Transloft. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+
+function WhyUs() {
+  return (
+    <div>
+      {/* Why Transloft? Section */}
+      <section id="why-transloft" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Transloft?</h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            We're reimagining logistics with technology that brings reliability, speed, and transparency to every shipment.
+          </p>
+        </div>
+
+        <div className="relative">
+          {/* Floating Graphics */}
+          <div className="hidden lg:block absolute -left-20 top-1/4">
+            <div className="w-40 h-40 rounded-full "></div>
+          </div>
+          <div className="hidden lg:block absolute -right-20 bottom-1/4">
+            <div className="w-40 h-40 rounded-full  "></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <Image
+                src="/logistics-dashboard.jpg"
+                alt="Transloft Dashboard"
+                width={600}
+                height={480}
+                className="rounded-2xl shadow-lg object-cover"
+              />
+            </div>
+            
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-md bg-blue-100 text-blue-600">
+                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-xl font-medium text-gray-900">Reliability You Can Trust</h3>
+                    <p className="mt-2 text-gray-600">
+                      With a 99.8% on-time delivery rate and carrier quality scoring, we ensure your goods arrive as promised, every time.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-md bg-green-100 text-green-600">
+                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-xl font-medium text-gray-900">Global Reach, Local Expertise</h3>
+                    <p className="mt-2 text-gray-600">
+                      Our network extends across 120+ countries with local teams who understand regional regulations and requirements.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-md bg-purple-100 text-purple-600">
+                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-xl font-medium text-gray-900">AI-Powered Efficiency</h3>
+                    <p className="mt-2 text-gray-600">
+                      Our proprietary algorithm matches your cargo with the perfect carrier, optimizing for cost, speed, and reliability.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-md bg-yellow-100 text-yellow-600">
+                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-xl font-medium text-gray-900">Full Transparency</h3>
+                    <p className="mt-2 text-gray-600">
+                      Real-time tracking, clear pricing, and detailed analytics give you complete visibility into your supply chain.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function Solutions() {
+  return (
+    <div>
+      {/* Solutions Section */}
+      <section id="solutions" className="relative py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Solutions</h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Tailored logistics solutions for every business need, regardless of size or industry
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+              <div className="p-8">
+                <div className="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6">
+                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">E-Commerce Fulfillment</h3>
+                <p className="text-gray-600 mb-6">
+                  End-to-end solutions for online retailers, from warehouse storage to last-mile delivery, with seamless integration for your shopping platforms.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Same-day and next-day delivery options
+                  </li>
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Shopify, WooCommerce, and Amazon integrations
+                  </li>
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Custom packaging and branded tracking
+                  </li>
+                </ul>
+                <a href="#" className="inline-flex items-center text-blue-600 font-medium">
+                  Learn more
+                  <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+              <div className="p-8">
+                <div className="w-16 h-16 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center mb-6">
+                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">B2B Freight Services</h3>
+                <p className="text-gray-600 mb-6">
+                  Streamlined solutions for business-to-business shipping, from pallets to full truckload, with dedicated account management.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    LTL and FTL shipping options
+                  </li>
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Cross-docking and distribution services
+                  </li>
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Volume discounts and contract rates
+                  </li>
+                </ul>
+                <a href="#" className="inline-flex items-center text-blue-600 font-medium">
+                  Learn more
+                  <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+              <div className="p-8">
+                <div className="w-16 h-16 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mb-6">
+                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">International Shipping</h3>
+                <p className="text-gray-600 mb-6">
+                  Global logistics solutions with customs clearance expertise, documentation support, and international tracking.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Air, ocean, and ground transportation
+                  </li>
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Customs brokerage and compliance
+                  </li>
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Global trade management
+                  </li>
+                </ul>
+                <a href="#" className="inline-flex items-center text-blue-600 font-medium">
+                  Learn more
+                  <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+              <div className="p-8">
+                <div className="w-16 h-16 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center mb-6">
+                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Last-Mile Delivery</h3>
+                <p className="text-gray-600 mb-6">
+                  Fast, reliable local delivery with real-time tracking, proof of delivery, and white-glove service options.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Same-day and scheduled deliveries
+                  </li>
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Real-time tracking and notifications
+                  </li>
+                  <li className="flex items-center text-gray-600">
+                    <svg className="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Installation and assembly services
+                  </li>
+                </ul>
+                <a href="#" className="inline-flex items-center text-blue-600 font-medium">
+                  Learn more
+                  <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function HowItWorks() {
+  return (
+    <div>
+      {/* How it Works Section */}
+      <section id="how-it-works" className="relative py-24 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-blue-600 font-medium text-sm tracking-wide uppercase">Simple Process</span>
+            <h2 className="mt-3 text-4xl font-bold text-gray-900">How Transloft Works</h2>
+            <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
+              Ship your products in three easy steps
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* Connection Line */}
+            <div className="hidden lg:block absolute left-1/2 top-24 bottom-24 w-0.5 bg-gradient-to-b from-blue-400 to-blue-100"></div>
+
+            {/* Steps */}
+            <div className="space-y-24">
+              {[
+                {
+                  title: "Create Your Shipment",
+                  description: "Enter your shipment details including pickup and delivery locations, package information, and scheduling preferences.",
+                  icon: "📦",
+                  image: "/create-shipment.jpg",
+                  color: "blue"
+                },
+                {
+                  title: "Get Instant Quotes",
+                  description: "Compare competitive rates from our verified carrier network and choose the option that best fits your needs.",
+                  icon: "💰",
+                  image: "/compare-rates.jpg",
+                  color: "green"
+                },
+                {
+                  title: "Track & Manage",
+                  description: "Monitor your shipment in real-time, receive notifications, and access detailed delivery information.",
+                  icon: "🚚",
+                  image: "/track-delivery.jpg",
+                  color: "purple"
+                }
+              ].map((step, index) => (
+                <div key={index} className="relative">
+                  <div className={`lg:w-1/2 ${index % 2 === 0 ? 'lg:ml-auto lg:pl-16' : 'lg:pr-16'}`}>
+                    <div className="relative">
+                      {/* Step Number */}
+                      <div className={`absolute -left-4 lg:left-auto ${index % 2 === 0 ? 'lg:-left-16' : 'lg:-right-16'} top-0 
+                        w-8 h-8 rounded-full bg-white shadow-md border-2 border-blue-400 flex items-center justify-center
+                        text-blue-600 font-bold z-10`}>
+                        {index + 1}
+                      </div>
+
+                      {/* Content Card */}
+                      <div className="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden group
+                        hover:shadow-xl transition-all duration-300 border border-gray-100">
+                        {/* Icon */}
+                        <div className={`w-16 h-16 rounded-xl bg-${step.color}-50 flex items-center justify-center text-3xl mb-6
+                          group-hover:scale-110 transition-transform duration-300`}>
+                          {step.icon}
+                        </div>
+
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">{step.title}</h3>
+                        <p className="text-gray-600 leading-relaxed">{step.description}</p>
+
+                        {/* Feature List */}
+                        <div className="mt-6 space-y-3">
+                          {[
+                            "Smart address validation",
+                            "Real-time rate calculation",
+                            "Automated documentation"
+                          ].map((feature, idx) => (
+                            <div key={idx} className="flex items-center text-gray-600">
+                              <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
+                              </svg>
+                              {feature}
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Decorative Elements */}
+                        <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-gray-50 rounded-full opacity-50"></div>
+                        <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-gray-100 rounded-full opacity-50"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-24 text-center">
+          <button className="inline-flex items-center px-8 py-4 rounded-xl bg-blue-600 text-white font-medium
+            hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl">
+            Start Shipping Now
+            <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+          </button>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function WaitList() {
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState(null)
+  const [addedToWaitList, setAddedToWaitList] = useState(false)
+  
+  useEffect(() => {
+    if (addedToWaitList || error) {
+      const timeout = setTimeout(() => {setAddedToWaitList(false), setError(null);}, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [addedToWaitList, error]); 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:8000/api/wait-list", {
+        method: "POST",
+        headers: {
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify({email})
+      })
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to add email to waitlist");
+      }
+
+      setAddedToWaitList(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setEmail('')
+    }
+  }
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setEmail(value);
+  };
+
+  return (
+    <div>
       {/* Waitlist Section */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 overflow-hidden">
         <div className="relative bg-gradient-to-b from-gray-900 to-gray-800 p-12 md:p-16 rounded-3xl">
@@ -249,17 +706,28 @@ export default function Home() {
                 Join our waitlist to get exclusive early access and special launch offers.
               </p>
             </div>
+            <div>
+            {addedToWaitList && (
+                <p className="text-green-400 text-sm mt-4">🎉 You're on the waitlist!</p>
+              )}
 
-            <form className="flex flex-col sm:flex-row max-w-md mx-auto gap-4">
+              {error && (
+                <p className="text-red-400 text-sm mt-4">{error}</p>
+              )}
+            </div>
+            <form className="flex flex-col sm:flex-row max-w-md mx-auto gap-4" onSubmit={handleSubmit}>
               <div className="flex-1">
                 <input
                   type="email"
+                  value={email}
+                  onChange={handleChange}
                   placeholder="Enter your email"
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 text-white 
                     rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 
                     transition-all duration-300 hover:bg-white/20 placeholder-gray-400"
                 />
               </div>
+
               <button 
                 type="submit"
                 className="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold 
@@ -287,18 +755,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-100 border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col items-center space-y-4">
-            <LogoText />
-            <p className="text-sm text-gray-600">
-              © 2024 Transloft. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
-  );
+  )
 }
+
+
