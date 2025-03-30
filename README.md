@@ -53,8 +53,6 @@ This project connects shippers with carriers, streamlining operations and enhanc
 - 🚀 **Robust API Structure:** Ensures organized routes and middleware for seamless communication.
 - 📦 **Real-time Shipment Tracking:** Enables efficient management of shipments, enhancing operational visibility.
 - 🔒 **User Management:** Comprehensive authentication and role-based access control streamline interactions and security.
-- 📧 **Waitlist Management:** Captures user interest for future communications, boosting engagement.
-- ⚠️ **Error Handling:** Standardized responses improve debugging and user experience.
 - 🎨 **Responsive Frontend:** Built with Next.js and Tailwind CSS for a modern, user-friendly interface.
 
 ---
