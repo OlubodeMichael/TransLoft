@@ -10,7 +10,6 @@ import LogoText from '@/app/_components/LogoText';
 
 export default function DashboardLayout({ children }) {
     const { user, logout, isLoading } = useAuth()
-    //console.log(user?.data?.doc?.email)
     const router = useRouter();
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

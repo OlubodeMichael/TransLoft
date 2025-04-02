@@ -6,10 +6,12 @@ function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // ✅ Auto-fetch current user on load
+  // Add this useEffect
   useEffect(() => {
     fetchUser();
   }, []);
+
+  // ✅ Auto-fetch current user on load
   
   const fetchUser = async () => {
     try {
@@ -35,6 +37,7 @@ function AuthProvider({ children }) {
 
   // ✅ Signup
   const signup = async ({ name, email, password, passwordConfirm }) => {
+    
     try {
       const res = await fetch("http://localhost:8000/api/users/signup", {
         method: "POST",
@@ -55,6 +58,7 @@ function AuthProvider({ children }) {
         throw new Error(error.message || "Signup failed");
       }
 
+      await fetchUser()
       const data = await res.json();
       setUser(data);
       return data;
@@ -81,20 +85,32 @@ function AuthProvider({ children }) {
       const loginData = await res.json();
   
       // ✅ Fetch actual user data from /me
-      const userRes = await fetch("http://localhost:8000/api/users/me", {
-        credentials: "include",
-      });
-  
-      if (!userRes.ok) throw new Error("Could not fetch user");
-      const userData = await userRes.json();
-
-  
-      setUser(userData); // This updates the context
+      await fetchUser()// This updates the context
       return loginData;  // Or return userData if you prefer
     } catch (err) {
       throw err;
     }
   };
+
+  const updateUser = async (updatedUser) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/users/updateMe", {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: "include",
+        body: JSON.stringify(updatedUser)
+      })
+
+      if(!res.ok) throw new Error("Failed to update user infomation")
+      
+      const userData = await res.json()
+      setUser(userData)
+    } catch (err) {
+      throw err
+    }
+  }
   
 
   // ✅ Logout
@@ -128,6 +144,7 @@ function AuthProvider({ children }) {
         isLoading,
         signup,
         login,
+        updateUser,
         logout,
         isAdmin,
         isShipper,

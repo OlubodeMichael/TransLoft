@@ -4,6 +4,7 @@ import Image from "next/image";
 import LogoText from "@/app/_components/LogoText";
 import Link from "next/link";
 import { useState, useEffect} from "react";
+import FadeInSection from "./_components/FadeInSection";
 // Initialize the fonts
 
 
@@ -11,9 +12,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
+      <FadeInSection>
       <nav className="fixed w-full bg-white/80 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <LogoText />
+          <LogoText link="/"/>
 
           {/* Center Navigation */}
           <div className="hidden md:flex items-center justify-center space-x-10 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -33,6 +35,7 @@ export default function Home() {
           </div>
         </div>
       </nav>
+      </FadeInSection>
 
       {/* Hero Section */}
       <section className="relative min-h-screen bg-white overflow-hidden">
@@ -62,13 +65,17 @@ export default function Home() {
               Your super logistics partner for success
             </p>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
-              Grow your business<br />with Logistics
-            </h1>
+            <FadeInSection>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+                Grow your business<br />with Logistics
+              </h1>
+            </FadeInSection>
             
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              Trust us to be your strategic partner in achieving your growth objectives and realizing your full business potential.
-            </p>
+            <FadeInSection>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                Trust us to be your strategic partner in achieving your growth objectives and realizing your full business potential.
+              </p>
+            </FadeInSection>
 
             <div className="pt-6">
               <button className="bg-gray-900 text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-all hover:scale-105 shadow-sm">

@@ -9,7 +9,6 @@ import { useShipments } from '@/context/ShipmentProvider';
 export default function Dashboard() {
     const { isLoading, shipments, fetchShipments } = useShipments()
     const router = useRouter();
-    console.log(shipments)
     const [stats, setStats] = useState({
         total: 0,
         inTransit: 0,
@@ -17,26 +16,20 @@ export default function Dashboard() {
         pending: 0
     });
     const [recentShipments, setRecentShipments] = useState([]);
-    //const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        
-        // Simulate loading delay
-        const timer = setTimeout(() => {
-            // Calculate stats from mock data
-            const stats = {
-                total: shipments.length,
-                inTransit: shipments.filter(s => s.status === 'in-transit').length,
-                delivered: shipments.filter(s => s.status === 'delivered').length,
-                pending: shipments.filter(s => s.status === 'pending').length
-            };
-
-            setStats(stats);
-            setRecentShipments(shipments);
-        }, 0); // 1 second delay to simulate loading
-
-        return () => clearTimeout(timer);
-    }, []);
+        if (!shipments || shipments.length === 0) return;
+    
+        const stats = {
+            total: shipments.length,
+            inTransit: shipments.filter(s => s.status === 'in-transit').length,
+            delivered: shipments.filter(s => s.status === 'delivered').length,
+            pending: shipments.filter(s => s.status === 'pending').length
+        };
+    
+        setStats(stats);
+        setRecentShipments(shipments);
+    }, [shipments]); 
 
     const getStatusColor = (status) => {
         const colors = {
@@ -191,7 +184,7 @@ export default function Dashboard() {
                                     </div>
                                     <div className="ml-4">
                                         <Link
-                                            href={`/shipments/${shipment._id}`}
+                                            href={`/dashboard/${shipment._id}`}
                                             className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                         >
                                             Track

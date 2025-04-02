@@ -11,9 +11,14 @@ function ShipmentProvider({children}) {
     const [error, setError] = useState(null);
     
     useEffect(() => {
-        if(user ) fetchShipments()
-        
-    }, [user])
+        const loadShipments = async () => {
+            if (user) {
+                await fetchShipments();
+            }
+        };
+        loadShipments();
+    }, [user]);
+    
 
    
 
@@ -83,7 +88,6 @@ function ShipmentProvider({children}) {
 
             const data = await response.json();
             const shipmentData = data?.data?.shipment || null;
-            console.log("Fetched shipment:", shipmentData);
             setShipment(shipmentData);
         } catch (err) {
             console.error('Error fetching shipment details:', err);
@@ -94,9 +98,27 @@ function ShipmentProvider({children}) {
     };
    
 
-   const updateShipments = async (shipment_id) => {
-    
-   }
+    const updateShipment = async (shipment_id, updatedData) => {
+        try {
+          const res = await fetch(`http://localhost:8000/api/shipments/${shipment_id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(updatedData)
+          });
+      
+          if (!res.ok) throw new Error('Failed to update shipment');
+          const data = await res.json();
+          await fetchShipments();
+          return data?.data?.shipment;
+        } catch (err) {
+          console.error("Error updating shipment:", err);
+          setError(err.message);
+        }
+      };
+      
    
    const deleteShipment = async (shipment_id) => {
         try {
@@ -126,7 +148,7 @@ function ShipmentProvider({children}) {
             fetchShipments,
             createShipment, 
             getShipment,   // once implemented
-            //updateShipment,    // once implemented
+            updateShipment,    // once implemented
             deleteShipment     // once implemented
         }}>
             {children}

@@ -12,10 +12,10 @@ const rajdhani = Rajdhani({
   subsets: ['latin'],
 });
 
-export default function LogoText({ className = "" }) {
+export default function LogoText({ className = "" , link = ''}) {
   return (
-    <Link href="/">
-      <div className={`text-2xl flex items-baseline gap-[1px] ${className}`}>
+    <Link href={link}>
+      <div className={`text-2xl flex items-baseline gap-[1px] ${className} cursor-pointer`}>
         <span className={`${bebasNeue.className} text-gray-900 tracking-wider text-3xl`}>
           TRANS
         </span>
