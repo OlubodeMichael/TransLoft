@@ -10,6 +10,7 @@ router.post("/login", authController.login)
 router.post("/logout", authController.logout)
 
 router.get('/me', authController.protect, userController.getMe, userController.getUser);
+router.patch('/updateMe', authController.protect,userController.updateMe);
 
 router
    .route('/')

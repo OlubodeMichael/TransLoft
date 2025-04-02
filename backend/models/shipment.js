@@ -1,5 +1,21 @@
 const mongoose = require('mongoose');
 
+const trackingUpdateSchema = new mongoose.Schema({
+    timestamp: {
+      type: Date,
+      default: Date.now,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    note: {
+      type: String,
+      default: '',
+    }
+  });
+
 const shipmentSchema = new mongoose.Schema({
     pickUpLocation: {
         type: String,
@@ -11,7 +27,7 @@ const shipmentSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'in-transit', 'delivered'],
+        enum: ['pending', 'accepted', 'in-transit', 'delivered', 'cancelled'],
         default: 'pending'
     },
     createdAt: {
@@ -27,7 +43,28 @@ const shipmentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'User', 
         default: null
-    }
+    },
+    cargoDetails: {
+        weight: {
+          type: Number,
+          required: true,
+        },
+        type: {
+          type: String,
+          required: true,
+        },
+        dimensions: {
+          type: String,
+          required: true,
+        }
+      },
+      tracking: {
+        currentLocation: {
+          type: String,
+          default: '',
+        },
+        updates: [trackingUpdateSchema]
+      }
 });
 
 const Shipment = mongoose.model('Shipment', shipmentSchema);

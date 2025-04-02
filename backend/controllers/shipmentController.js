@@ -9,9 +9,10 @@ exports.getAllShipment = async (req, res) => {
         } else {
             shipments = await Shipment.find({ user: req.user._id });
         }
-        //console.log(shipments)
+        
         res.status(200).json({
             status: 'success',
+            result: shipments.length,
             data: {
                 shipments
             }
@@ -27,8 +28,7 @@ exports.getAllShipment = async (req, res) => {
 exports.createShipment = async (req, res) => {
     try {
         // Validate required fields
-        console.log(`Recieved body: ${req.body}`)
-        const { pickUpLocation, destination } = req.body;
+        const { pickUpLocation, destination, cargoDetails } = req.body;
         if (!pickUpLocation || !destination) {
             return res.status(400).json({
                 status: 'fail',
@@ -39,6 +39,7 @@ exports.createShipment = async (req, res) => {
         const newShipment = await Shipment.create({
             pickUpLocation,
             destination,
+            cargoDetails,
             user: req.user._id
           });
           
