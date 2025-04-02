@@ -434,7 +434,7 @@ export default function ShipmentDetails({ params }) {
 
   useEffect(() => {
     getShipment(shipmentId);
-  }, [shipmentId]);
+  }, [shipmentId, getShipment]);
 
   if (isLoading) {
     return <LoadingSpinner />;
